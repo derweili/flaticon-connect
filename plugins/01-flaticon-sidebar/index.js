@@ -3,13 +3,14 @@
  */
 const { __ } = wp.i18n;
 const { Fragment, Component } = wp.element;
-const { PanelBody, PanelRow, TextControl, Button, SelectControl } = wp.components;
+const { PanelBody, PanelRow, TextControl, Button, SelectControl, CheckboxControl} = wp.components;
 const { registerPlugin } = wp.plugins;
 const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 const { apiFetch } = wp;
 const { createBlock } = wp.blocks;
 
 import './plugin.scss';
+import icon from "./icon";
 
 
 function setApiKey(apiKey) {
@@ -34,7 +35,8 @@ class DerweiliFlaticonSidebar extends Component {
     isImporting: false,
     importingImages: [],
     apiKey: '',
-    color: 0
+    color: 0,
+    insertImage: true
   }
 
   
@@ -109,6 +111,7 @@ class DerweiliFlaticonSidebar extends Component {
       body: JSON.stringify({image_data})
     })
       .then(blockSetting => {
+        console.log('importImage', blockSetting);
         return blockSetting;
       })
       .catch(error => error);
@@ -126,7 +129,7 @@ class DerweiliFlaticonSidebar extends Component {
       importingImages
     });
 
-    const importedImageId = await this.importImage( icon.imageData );
+    const imortedMedia = await this.importImage( icon.imageData );
 
     const {importedImages} = this.state;
 
@@ -136,13 +139,20 @@ class DerweiliFlaticonSidebar extends Component {
       isImporting: false,
       importedImages
     })
-    this.insertImage(importedImageId);
+
+    if(this.state.insertImage){
+      this.insertImage(imortedMedia);
+    }
 
   }
 
 
-  insertImage(imgId){
-    wp.data.dispatch( 'core/editor' ).insertBlock(  createBlock('core/image', {id:imgId}), 1 );
+  insertImage(media){
+    console.log('insertImage', media);
+    wp.data.dispatch( 'core/editor' ).insertBlock(  createBlock(
+      'core/image',
+      {id:media.id,url:media.url})
+    );
   }
 
 
@@ -247,6 +257,16 @@ class DerweiliFlaticonSidebar extends Component {
                 ]}
                 />
             </PanelRow>
+            
+            <PanelRow>
+              <CheckboxControl
+                heading=""
+                label="Insert Image after import"
+                // help="Is the user a author or not?"
+                checked={ this.state.insertImage }
+                onChange={ () => { this.setState( { insertImage: ! this.state.insertImage  } ) } }
+              />
+            </PanelRow>
 
 
             <PanelRow>
@@ -291,6 +311,6 @@ class DerweiliFlaticonSidebar extends Component {
 
 
 registerPlugin("jsforwpadvgb-demo", {
-  icon: "admin-plugins",
+  icon,
   render: DerweiliFlaticonSidebar
 });

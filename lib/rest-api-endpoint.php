@@ -50,9 +50,14 @@ function import_icon( $request ) {
 
     $attachment_id = importMedia(json_decode($request_data, true));
 
+    $return = array(
+        'id' => $attachment_id,
+        'url' => wp_get_attachment_image_src($attachment_id, 'full')[0]
+    );
+
     // var_dump($attachment_id);
     
-    $response = new \WP_REST_Response( $attachment_id );
+    $response = new \WP_REST_Response( $return );
     $response->set_status(201);
 
     return $response;

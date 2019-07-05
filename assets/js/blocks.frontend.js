@@ -60,18 +60,17 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 55);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */,
-/* 1 */,
-/* 2 */
+/******/ ({
+
+/***/ 55:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__01_block_frontend__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__01_block_frontend__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__01_block_frontend___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__01_block_frontend__);
 /**
  * Import example blocks with frontend code
@@ -79,11 +78,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 3 */
+
+/***/ 56:
 /***/ (function(module, exports) {
 
 
 
 /***/ })
-/******/ ]);
+
+/******/ });
 //# sourceMappingURL=blocks.frontend.js.map

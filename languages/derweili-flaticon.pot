@@ -3,18 +3,18 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "X-Generator: babel-plugin-makepot\n"
 
-#: plugins/01-flaticon-sidebar/index.js:219
+#: plugins/01-flaticon-sidebar/index.js:229
 msgid "Flaticon"
 msgstr ""
 
-#: plugins/01-flaticon-sidebar/index.js:221
+#: plugins/01-flaticon-sidebar/index.js:231
 msgid "Sidebar Header"
 msgstr ""
 
-#: plugins/01-flaticon-sidebar/index.js:240
+#: plugins/01-flaticon-sidebar/index.js:250
 msgid "Color"
 msgstr ""
 
-#: plugins/01-flaticon-sidebar/index.js:272
+#: plugins/01-flaticon-sidebar/index.js:292
 msgid "API Key"
 msgstr ""
