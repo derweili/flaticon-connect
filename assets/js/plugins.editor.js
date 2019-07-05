@@ -1410,7 +1410,7 @@ var DerweiliFlaticonSidebar = function (_Component) {
           },
           wp.element.createElement(
             PanelBody,
-            { title: __("Sidebar Header", "derweili-flaticon") },
+            null,
             wp.element.createElement(
               PanelRow,
               null,
@@ -1432,8 +1432,9 @@ var DerweiliFlaticonSidebar = function (_Component) {
               PanelRow,
               null,
               wp.element.createElement(SelectControl, {
-                label: __('Color'),
+                label: __('Color scheme'),
                 value: color,
+                className: "flaticon-color-select",
                 onChange: function onChange(color) {
                   _this5.setState({ color: color }, function () {
                     return _this5.onSearch();

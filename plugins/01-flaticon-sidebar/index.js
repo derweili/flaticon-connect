@@ -228,7 +228,7 @@ class DerweiliFlaticonSidebar extends Component {
           name="derweili-flaticon-sidebar"
           title={__("Flaticon", "derweili-flaticon")}
         >
-          <PanelBody title={__("Sidebar Header", "derweili-flaticon")} >
+          <PanelBody  >
 
             <PanelRow>
             <TextControl 
@@ -247,8 +247,9 @@ class DerweiliFlaticonSidebar extends Component {
 
             <PanelRow>
               <SelectControl 
-                label={ __( 'Color' ) } 
+                label={ __( 'Color scheme' ) } 
                 value={ color }
+                className="flaticon-color-select"
                 onChange={ (color) => { this.setState( {color}, () => this.onSearch() ); } }
                 options={[
                   {value: 0, label: "All"},

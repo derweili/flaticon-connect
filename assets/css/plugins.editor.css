@@ -19,7 +19,7 @@ img.importing {
 
 .flaticon-search-field {
   width: 100%; }
-  .flaticon-search-field input {
+  .flaticon-search-field input[type=text] {
     width: 100%;
     padding: 0 45px 0 10px;
     border: 1px solid #e1e1e1;
@@ -33,5 +33,19 @@ img.importing {
     border-radius: 0;
     border-color: #e2e4e7;
     font-size: 13px; }
+
+.flaticon-color-select select {
+  padding: 0 45px 0 10px;
+  border: 1px solid #e1e1e1;
+  background-color: #f7f7f7 !important;
+  font-size: 16px;
+  transition: padding .15s ease;
+  line-height: 34px;
+  height: 34px;
+  padding-right: 30px;
+  padding-left: 8px;
+  border-radius: 0;
+  border-color: #e2e4e7;
+  font-size: 13px; }
 
 /*# sourceMappingURL=plugins.editor.css.map*/

@@ -7,14 +7,10 @@ msgstr ""
 msgid "Flaticon"
 msgstr ""
 
-#: plugins/01-flaticon-sidebar/index.js:231
-msgid "Sidebar Header"
-msgstr ""
-
 #: plugins/01-flaticon-sidebar/index.js:250
-msgid "Color"
+msgid "Color scheme"
 msgstr ""
 
-#: plugins/01-flaticon-sidebar/index.js:292
+#: plugins/01-flaticon-sidebar/index.js:293
 msgid "API Key"
 msgstr ""
