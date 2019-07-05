@@ -2,7 +2,7 @@
 	"presets": [ "@wordpress/default" ],
 	"plugins": [
 		[ "@wordpress/babel-plugin-makepot", {
-			"output": "languages/gutenbergpluginstarter.pot"
+			"output": "languages/derweili-flaticon.pot"
 		} ],
 		"transform-class-properties"
 	]

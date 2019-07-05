@@ -11,12 +11,12 @@ const { addFilter } = wp.hooks;
 //   // Check for block type
 //   if ("core/code" === name) {
 //     // Change the block title
-//     settings.title = __("Code Snippet", "gutenbergpluginstarter");
+//     settings.title = __("Code Snippet", "derweili-flaticon");
 
 //     // Change the block description
 //     settings.description = __(
 //       "Use for maximum codiness 💃",
-//       "gutenbergpluginstarter"
+//       "derweili-flaticon"
 //     );
 
 //     // Change block category
@@ -27,9 +27,9 @@ const { addFilter } = wp.hooks;
 
 //     // Change keywords
 //     if (settings.keywords) {
-//       settings.keywords.push(__("💻", "gutenbergpluginstarter"));
+//       settings.keywords.push(__("💻", "derweili-flaticon"));
 //     } else {
-//       settings.keywords = [__("💻", "gutenbergpluginstarter")];
+//       settings.keywords = [__("💻", "derweili-flaticon")];
 //     }
 
 //     // Change supports

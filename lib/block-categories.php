@@ -1,6 +1,6 @@
 <?php
 
-namespace Derweili\Plugin_Starter;
+namespace Derweili\Flaticon;
 
 
 add_filter( 'block_categories', function( $categories, $post ) {
@@ -8,9 +8,9 @@ add_filter( 'block_categories', function( $categories, $post ) {
 		$categories,
 		[
 			[
-                'slug' => 'gutenbergpluginstarter',
+                'slug' => 'derweili-flaticon',
                 'icon' => 'wordpress-alt',
-				'title' => __( 'JS for WP - Advanced Blocks', 'gutenbergpluginstarter' ),
+				'title' => __( 'JS for WP - Advanced Blocks', 'derweili-flaticon' ),
 			],
 		]
 	);

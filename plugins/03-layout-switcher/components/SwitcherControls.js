@@ -10,23 +10,23 @@ const SwitcherControls = ({ blocks, icons, layouts }) => {
   const blockIds = blocks.map(block => block.clientId);
   return (
     <Fragment>
-      <PanelBody title={__("Layout Choices", "gutenbergpluginstarter")} opened>
+      <PanelBody title={__("Layout Choices", "derweili-flaticon")} opened>
         <PanelRow className="layout-switcher">
           <SwitcherButton
-            label={__("Hero", "gutenbergpluginstarter")}
+            label={__("Hero", "derweili-flaticon")}
             icon={icons.hero}
             blockIds={blockIds}
             layout={layouts.hero}
           />
           <SwitcherButton
-            label={__("Feature", "gutenbergpluginstarter")}
+            label={__("Feature", "derweili-flaticon")}
             icon={icons.featured}
             blockIds={blockIds}
             layout={layouts.featured}
           />
         </PanelRow>
       </PanelBody>
-      <PanelBody title={__("Reset Layout", "gutenbergpluginstarter")}>
+      <PanelBody title={__("Reset Layout", "derweili-flaticon")}>
         <PanelRow>
           <ResetControls layout={layouts.default} />
         </PanelRow>

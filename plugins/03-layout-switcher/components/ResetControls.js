@@ -14,20 +14,20 @@ const ResetControls = ({
   return (
     <Fragment>
       <Button isLink isDestructive onClick={() => setState({ isOpen: true })}>
-        {__("Reset Layout", "gutenbergpluginstarter")}
+        {__("Reset Layout", "derweili-flaticon")}
       </Button>
       {isOpen && (
         <Modal
           className="layout-switcher-reset"
-          title={__("Warning!", "gutenbergpluginstarter")}
+          title={__("Warning!", "derweili-flaticon")}
           onRequestClose={() => setState({ isOpen: false })}
         >
           <p>
-            {__("This action will remove all blocks", "gutenbergpluginstarter")}
+            {__("This action will remove all blocks", "derweili-flaticon")}
             <strong>
               {__(
                 "This can be undone before leaving the page with the Undo option.",
-                "gutenbergpluginstarter"
+                "derweili-flaticon"
               )}
             </strong>
           </p>
@@ -40,7 +40,7 @@ const ResetControls = ({
                 setState({ isOpen: false });
               }}
             >
-              {__("Reset Layout", "gutenbergpluginstarter")}
+              {__("Reset Layout", "derweili-flaticon")}
             </Button>
           </p>
         </Modal>

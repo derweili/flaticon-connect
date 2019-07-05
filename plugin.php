@@ -2,24 +2,24 @@
 /**
  * Main plugin file
  *
- * @package     Derweili\Plugin_Starter
+ * @package     Derweili\Flaticon
  * @author      Julian Weiland (@derweili), Zac Gordon (@zgordon)
  * @license     GPL2+
  *
  * @wordpress-plugin
- * Plugin Name: Gutenberg - Plugin Starter
+ * Plugin Name: Flaticon
  * Plugin URI:  https://javascriptforwp.com/
  * Description: A plugin starter for everything about Gutenberg
  * Version:     1.0.0
  * Author:      Julian Weiland
  * Author URI:  https://twitter.com/derweili
- * Text Domain: gutenbergpluginstarter
+ * Text Domain: derweili-flaticon
  * Domain Path: /languages
  * License:     GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 
-namespace Derweili\Plugin_Starter;
+namespace Derweili\Flaticon;
 
 //  Exit if accessed directly.
 defined('ABSPATH') || exit;
@@ -68,7 +68,7 @@ include __DIR__ . '/lib/register-scripts.php';
 // include __DIR__ . '/lib/wp-options.php';
 
 // Register REST API Endpoint
-// include __DIR__ . '/lib/rest-api-endpoint.php';
+include __DIR__ . '/lib/rest-api-endpoint.php';
 
 // Register blocks server side
 // include __DIR__ . '/lib/register-blocks.php';

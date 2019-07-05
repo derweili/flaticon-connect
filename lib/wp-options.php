@@ -1,6 +1,6 @@
 <?php
 
-namespace Derweili\Plugin_Starter;
+namespace Derweili\Flaticon;
 
 $option_name = "jsforwpadvgb_block_setting";
 
