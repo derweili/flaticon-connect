@@ -1,5 +1,7 @@
-# Gutenberg Plugin Starter
+# Flaticon Connect
+Search for icons directly from your WordPress admin interface.
 
+A Flaticon API Key is required.
 
 ## Example File Instructions
 
