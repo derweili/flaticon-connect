@@ -67,7 +67,7 @@
 /* 0 */
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.6.9' };
+var core = module.exports = { version: '2.6.10' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -1138,7 +1138,9 @@ var DerweiliFlaticonSidebar = function (_Component) {
       importingImages: [],
       apiKey: '',
       color: 0,
-      insertImage: true
+      insertImage: true,
+      userCanImportImages: false,
+      userCanSetApiKey: false
     }, _this.updateApiKey = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_asyncToGenerator___default()( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_1_babel_runtime_regenerator___default.a.mark(function _callee() {
       var apiKey;
       return __WEBPACK_IMPORTED_MODULE_1_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
@@ -1168,6 +1170,7 @@ var DerweiliFlaticonSidebar = function (_Component) {
     value: function componentDidMount() {
 
       this.loadApiKey();
+      this.loadApiPermissions();
     }
   }, {
     key: "loadApiKey",
@@ -1203,6 +1206,22 @@ var DerweiliFlaticonSidebar = function (_Component) {
       return loadApiKey;
     }()
   }, {
+    key: "loadApiPermissions",
+    value: function loadApiPermissions() {
+      var _this3 = this;
+
+      return apiFetch({
+        path: "/flaticon/v1/flaticon-permissions/"
+      }).then(function (permissions) {
+        return _this3.setState({
+          userCanImportImages: permissions.import_image,
+          userCanSetApiKey: permissions.update_key
+        });
+      }).catch(function (error) {
+        return error;
+      });
+    }
+  }, {
     key: "getApiKey",
     value: function getApiKey() {
       return apiFetch({
@@ -1216,7 +1235,7 @@ var DerweiliFlaticonSidebar = function (_Component) {
   }, {
     key: "fetchApiToken",
     value: function fetchApiToken(apiKey) {
-      var _this3 = this;
+      var _this4 = this;
 
       fetch('https://api.flaticon.com/v2/app/authentication', {
         method: 'POST',
@@ -1233,7 +1252,7 @@ var DerweiliFlaticonSidebar = function (_Component) {
         console.log('responseJson', responseJson);
         if (responseJson.hasOwnProperty('data') && responseJson.data.hasOwnProperty('token')) {
           var token = responseJson.data.token;
-          _this3.setState({
+          _this4.setState({
             token: token,
             isRequestingToken: false
           });
@@ -1332,7 +1351,7 @@ var DerweiliFlaticonSidebar = function (_Component) {
   }, {
     key: "onSearch",
     value: function onSearch() {
-      var _this4 = this;
+      var _this5 = this;
 
       var _state = this.state,
           token = _state.token,
@@ -1372,13 +1391,13 @@ var DerweiliFlaticonSidebar = function (_Component) {
         });
         return icons;
       }).then(function (icons) {
-        _this4.setState({ icons: icons });
+        _this5.setState({ icons: icons });
       }).catch(function (error) {});
     }
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       var _state2 = this.state,
           searchTerm = _state2.searchTerm,
@@ -1386,110 +1405,116 @@ var DerweiliFlaticonSidebar = function (_Component) {
           importedImages = _state2.importedImages,
           importingImages = _state2.importingImages,
           apiKey = _state2.apiKey,
-          color = _state2.color;
+          color = _state2.color,
+          userCanSetApiKey = _state2.userCanSetApiKey,
+          userCanImportImages = _state2.userCanImportImages;
 
 
       return wp.element.createElement(
         Fragment,
         null,
-        wp.element.createElement(
-          PluginSidebarMoreMenuItem,
-          { target: "derweili-flaticon-sidebar" },
-          __("Flaticon", "derweili-flaticon")
-        ),
-        wp.element.createElement(
-          PluginSidebar,
-          {
-            name: "derweili-flaticon-sidebar",
-            title: __("Flaticon", "derweili-flaticon")
-          },
+        userCanImportImages && wp.element.createElement(
+          Fragment,
+          null,
           wp.element.createElement(
-            PanelBody,
-            null,
-            wp.element.createElement(
-              PanelRow,
-              null,
-              wp.element.createElement(TextControl, {
-                label: "Search",
-                className: "flaticon-search-field",
-                value: searchTerm,
-                onChange: function onChange(searchTerm) {
-                  _this5.setState({ searchTerm: searchTerm });
-                },
-                onKeyPress: function onKeyPress(event) {
-                  if (event.key === 'Enter') {
-                    _this5.onSearch();
-                  }
-                }
-              })
-            ),
-            wp.element.createElement(
-              PanelRow,
-              null,
-              wp.element.createElement(SelectControl, {
-                label: __('Color scheme'),
-                value: color,
-                className: "flaticon-color-select",
-                onChange: function onChange(color) {
-                  _this5.setState({ color: color }, function () {
-                    return _this5.onSearch();
-                  });
-                },
-                options: [{ value: 0, label: "All" }, { value: 1, label: "Monocolor" }, { value: 2, label: "Multicolor" }]
-              })
-            ),
-            wp.element.createElement(
-              PanelRow,
-              null,
-              wp.element.createElement(CheckboxControl, {
-                heading: "",
-                label: "Insert Image after import"
-                // help="Is the user a author or not?"
-                , checked: this.state.insertImage,
-                onChange: function onChange() {
-                  _this5.setState({ insertImage: !_this5.state.insertImage });
-                }
-              })
-            ),
-            wp.element.createElement(
-              PanelRow,
-              null,
-              wp.element.createElement(
-                "div",
-                { className: "flaticon-sidebar-icon-grid" },
-                icons.length > 0 && icons.map(function (icon) {
-                  return wp.element.createElement("img", {
-                    src: icon.svg,
-                    alt: icon.packName,
-                    width: "100px",
-                    height: "100px",
-                    onClick: function onClick(e) {
-                      console.log('click icon', icon);_this5.onImportImage(icon);
-                    },
-                    className: " flaticon-sidebar-icon " + (importedImages.indexOf(icon.id) !== -1 && importingImages.indexOf(icon.id) !== -1 ? 'importing' : '') + " "
-                  });
-                })
-              )
-            )
+            PluginSidebarMoreMenuItem,
+            { target: "derweili-flaticon-sidebar" },
+            __("Flaticon", "derweili-flaticon")
           ),
           wp.element.createElement(
-            PanelBody,
-            { title: __("API Key", "derweili-flaticon"), initialOpen: false },
+            PluginSidebar,
+            {
+              name: "derweili-flaticon-sidebar",
+              title: __("Flaticon", "derweili-flaticon")
+            },
             wp.element.createElement(
-              PanelRow,
+              PanelBody,
               null,
-              wp.element.createElement(TextControl, {
-                label: "API Key",
-                value: apiKey,
-                onChange: function onChange(apiKey) {
-                  _this5.setState({ apiKey: apiKey });
-                },
-                onKeyPress: function onKeyPress(event) {
-                  if (event.key === 'Enter') {
-                    _this5.updateApiKey();
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(TextControl, {
+                  label: "Search",
+                  className: "flaticon-search-field",
+                  value: searchTerm,
+                  onChange: function onChange(searchTerm) {
+                    _this6.setState({ searchTerm: searchTerm });
+                  },
+                  onKeyPress: function onKeyPress(event) {
+                    if (event.key === 'Enter') {
+                      _this6.onSearch();
+                    }
                   }
-                }
-              })
+                })
+              ),
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(SelectControl, {
+                  label: __('Color scheme'),
+                  value: color,
+                  className: "flaticon-color-select",
+                  onChange: function onChange(color) {
+                    _this6.setState({ color: color }, function () {
+                      return _this6.onSearch();
+                    });
+                  },
+                  options: [{ value: 0, label: "All" }, { value: 1, label: "Monocolor" }, { value: 2, label: "Multicolor" }]
+                })
+              ),
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(CheckboxControl, {
+                  heading: "",
+                  label: "Insert Image after import"
+                  // help="Is the user a author or not?"
+                  , checked: this.state.insertImage,
+                  onChange: function onChange() {
+                    _this6.setState({ insertImage: !_this6.state.insertImage });
+                  }
+                })
+              ),
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(
+                  "div",
+                  { className: "flaticon-sidebar-icon-grid" },
+                  icons.length > 0 && icons.map(function (icon) {
+                    return wp.element.createElement("img", {
+                      src: icon.svg,
+                      alt: icon.packName,
+                      width: "100px",
+                      height: "100px",
+                      onClick: function onClick(e) {
+                        console.log('click icon', icon);_this6.onImportImage(icon);
+                      },
+                      className: " flaticon-sidebar-icon " + (importedImages.indexOf(icon.id) !== -1 && importingImages.indexOf(icon.id) !== -1 ? 'importing' : '') + " "
+                    });
+                  })
+                )
+              )
+            ),
+            userCanSetApiKey && wp.element.createElement(
+              PanelBody,
+              { title: __("API Key", "derweili-flaticon"), initialOpen: false },
+              wp.element.createElement(
+                PanelRow,
+                null,
+                wp.element.createElement(TextControl, {
+                  label: "API Key",
+                  value: apiKey,
+                  onChange: function onChange(apiKey) {
+                    _this6.setState({ apiKey: apiKey });
+                  },
+                  onKeyPress: function onKeyPress(event) {
+                    if (event.key === 'Enter') {
+                      _this6.updateApiKey();
+                    }
+                  }
+                })
+              )
             )
           )
         )

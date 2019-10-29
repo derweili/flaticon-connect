@@ -36,7 +36,9 @@ class DerweiliFlaticonSidebar extends Component {
     importingImages: [],
     apiKey: '',
     color: 0,
-    insertImage: true
+    insertImage: true,
+    userCanImportImages: false,
+    userCanSetApiKey: false
   }
 
   
@@ -44,7 +46,7 @@ class DerweiliFlaticonSidebar extends Component {
   componentDidMount(){
 
     this.loadApiKey();
-
+    this.loadApiPermissions();
     
     
   }
@@ -56,6 +58,19 @@ class DerweiliFlaticonSidebar extends Component {
     this.fetchApiToken(apiKey)
   }
 
+
+  loadApiPermissions(){
+
+    return apiFetch({
+      path: "/flaticon/v1/flaticon-permissions/"
+    })
+      .then(permissions => this.setState({
+        userCanImportImages: permissions.import_image,
+        userCanSetApiKey: permissions.update_key
+      }))
+      .catch(error => error);
+
+  }
 
   getApiKey() {
     return apiFetch({
@@ -217,94 +232,104 @@ class DerweiliFlaticonSidebar extends Component {
   }
 
   render() {
-    const { searchTerm, icons, importedImages, importingImages, apiKey, color } = this.state;
+    const { searchTerm, icons, importedImages, importingImages, apiKey, color, userCanSetApiKey, userCanImportImages } = this.state;
 
     return (
       <Fragment>
-        <PluginSidebarMoreMenuItem target="derweili-flaticon-sidebar">
-          {__("Flaticon", "derweili-flaticon")}
-        </PluginSidebarMoreMenuItem>
-        <PluginSidebar
-          name="derweili-flaticon-sidebar"
-          title={__("Flaticon", "derweili-flaticon")}
-        >
-          <PanelBody  >
+        {
+          userCanImportImages && (
+            <Fragment>
+              <PluginSidebarMoreMenuItem target="derweili-flaticon-sidebar">
+                {__("Flaticon", "derweili-flaticon")}
+              </PluginSidebarMoreMenuItem>
+              <PluginSidebar
+                name="derweili-flaticon-sidebar"
+                title={__("Flaticon", "derweili-flaticon")}
+              >
+                <PanelBody  >
 
-            <PanelRow>
-            <TextControl 
-                label="Search"
-                className="flaticon-search-field"
-                value={searchTerm}
-                onChange={(searchTerm) => { this.setState({searchTerm}) } }
-                onKeyPress={event => {
-                  if (event.key === 'Enter') {
-                    this.onSearch()
-                  }
-                }}
-                ></TextControl>
-            </PanelRow>
-
-
-            <PanelRow>
-              <SelectControl 
-                label={ __( 'Color scheme' ) } 
-                value={ color }
-                className="flaticon-color-select"
-                onChange={ (color) => { this.setState( {color}, () => this.onSearch() ); } }
-                options={[
-                  {value: 0, label: "All"},
-                  {value: 1, label: "Monocolor"},
-                  {value: 2, label: "Multicolor"}
-                ]}
-                />
-            </PanelRow>
-            
-            <PanelRow>
-              <CheckboxControl
-                heading=""
-                label="Insert Image after import"
-                // help="Is the user a author or not?"
-                checked={ this.state.insertImage }
-                onChange={ () => { this.setState( { insertImage: ! this.state.insertImage  } ) } }
-              />
-            </PanelRow>
+                  <PanelRow>
+                  <TextControl 
+                      label="Search"
+                      className="flaticon-search-field"
+                      value={searchTerm}
+                      onChange={(searchTerm) => { this.setState({searchTerm}) } }
+                      onKeyPress={event => {
+                        if (event.key === 'Enter') {
+                          this.onSearch()
+                        }
+                      }}
+                      ></TextControl>
+                  </PanelRow>
 
 
-            <PanelRow>
-                <div className="flaticon-sidebar-icon-grid">
+                  <PanelRow>
+                    <SelectControl 
+                      label={ __( 'Color scheme' ) } 
+                      value={ color }
+                      className="flaticon-color-select"
+                      onChange={ (color) => { this.setState( {color}, () => this.onSearch() ); } }
+                      options={[
+                        {value: 0, label: "All"},
+                        {value: 1, label: "Monocolor"},
+                        {value: 2, label: "Multicolor"}
+                      ]}
+                      />
+                  </PanelRow>
+                  
+                  <PanelRow>
+                    <CheckboxControl
+                      heading=""
+                      label="Insert Image after import"
+                      // help="Is the user a author or not?"
+                      checked={ this.state.insertImage }
+                      onChange={ () => { this.setState( { insertImage: ! this.state.insertImage  } ) } }
+                    />
+                  </PanelRow>
 
-                  {
-                    icons.length > 0 && icons.map((icon) => {
-                      return (
-                        <img
-                          src={icon.svg}
-                          alt={icon.packName}
-                          width="100px"
-                          height="100px"
-                          onClick={(e) => { console.log('click icon', icon ); this.onImportImage( icon ) } }
-                          className={` flaticon-sidebar-icon ${ importedImages.indexOf(icon.id) !== -1 && importingImages.indexOf(icon.id) !== -1 ? 'importing' : '' } `}
-                          />
-                      )
-                    })
-                  }
-                </div>
-              </PanelRow>
-          </PanelBody>
-          <PanelBody title={__("API Key", "derweili-flaticon")} initialOpen={ false }>
-            <PanelRow>
-              <TextControl 
-                label="API Key"
-                value={apiKey}
-                onChange={(apiKey) => { this.setState({apiKey}) } }
-                onKeyPress={event => {
-                  if (event.key === 'Enter') {
-                    this.updateApiKey()
-                  }
-                }}
-                ></TextControl>
-            </PanelRow>
-          </PanelBody>
-        </PluginSidebar>
+
+                  <PanelRow>
+                      <div className="flaticon-sidebar-icon-grid">
+
+                        {
+                          icons.length > 0 && icons.map((icon) => {
+                            return (
+                              <img
+                                src={icon.svg}
+                                alt={icon.packName}
+                                width="100px"
+                                height="100px"
+                                onClick={(e) => { console.log('click icon', icon ); this.onImportImage( icon ) } }
+                                className={` flaticon-sidebar-icon ${ importedImages.indexOf(icon.id) !== -1 && importingImages.indexOf(icon.id) !== -1 ? 'importing' : '' } `}
+                                />
+                            )
+                          })
+                        }
+                      </div>
+                    </PanelRow>
+                </PanelBody>
+                {
+                  userCanSetApiKey && (
+                  <PanelBody title={__("API Key", "derweili-flaticon")} initialOpen={ false }>
+                    <PanelRow>
+                      <TextControl 
+                        label="API Key"
+                        value={apiKey}
+                        onChange={(apiKey) => { this.setState({apiKey}) } }
+                        onKeyPress={event => {
+                          if (event.key === 'Enter') {
+                            this.updateApiKey()
+                          }
+                        }}
+                        ></TextControl>
+                    </PanelRow>
+                  </PanelBody>
+                  )
+                }
+              </PluginSidebar>
+            </Fragment>
+          )
+        }
       </Fragment>
     );
   }

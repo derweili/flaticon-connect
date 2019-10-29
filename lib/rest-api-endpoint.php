@@ -17,7 +17,7 @@ function custom_endpoints() {
         [
             'methods' => \WP_REST_Server::READABLE,
             'callback' => __NAMESPACE__ . '\get_api_key',
-            'permission_callback' => __NAMESPACE__ . '\get_api_key'
+            'permission_callback' => __NAMESPACE__ . '\check_import_image_permissions'
         ]
     );
 
@@ -27,7 +27,7 @@ function custom_endpoints() {
         [
             'methods' => \WP_REST_Server::EDITABLE,
             'callback' => __NAMESPACE__ . '\update_api_key',
-            'permission_callback' => __NAMESPACE__ . '\check_permissions'
+            'permission_callback' => __NAMESPACE__ . '\check_admin_key_update_permissions'
         ]
     );
 
@@ -37,7 +37,17 @@ function custom_endpoints() {
         [
             'methods' => \WP_REST_Server::EDITABLE,
             'callback' => __NAMESPACE__ . '\import_icon',
-            'permission_callback' => __NAMESPACE__ . '\check_permissions'
+            'permission_callback' => __NAMESPACE__ . '\check_import_image_permissions'
+        ]
+    );
+
+    register_rest_route(
+        DERWEILI_FLATICON_REST_NAMESPACE,
+        'flaticon-permissions/',
+        [
+            'methods' => \WP_REST_Server::READABLE,
+            'callback' => __NAMESPACE__ . '\flaticon_permissions',
+            // 'permission_callback' => __NAMESPACE__ . '\check_import_image_permissions'
         ]
     );
 
@@ -64,10 +74,14 @@ function import_icon( $request ) {
 
 }
 
-function check_permissions() {
+function check_import_image_permissions() {
     return current_user_can("upload_files");
 }
 
+
+function check_admin_key_update_permissions() {
+    return current_user_can("manage_options");
+}
 
 function importMedia( $image ){
 
@@ -129,4 +143,18 @@ function update_api_key( $request ) {
     $response = new \WP_REST_Response( $api_key );
     $response->set_status(201);
     return $response;
+}
+
+
+function flaticon_permissions(){
+
+    $repsonse_data = array(
+        'import_image' => check_import_image_permissions(),
+        'update_key' => check_admin_key_update_permissions()
+    );
+
+    $response = new \WP_REST_Response( $repsonse_data );
+    $response->set_status(200);
+    return $response;
+
 }
